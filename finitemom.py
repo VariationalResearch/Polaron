@@ -149,29 +149,29 @@ PBint_tck = np.load('PBint_spline.npy')
 # # EFFECTIVE MASS VS. INTERACTIONS
 
 
-# aIBiVals = np.linspace(-10, 10, 100)
-# P = 0.1 * mI * nuV
+aIBiVals = np.linspace(-10, 10, 100)
+P = 0.1 * mI * nuV
 
-# fig, ax = plt.subplots()
-# DPg = 0
-# PBVals = np.zeros(aIBiVals.size)
-# for inda, aIBi in enumerate(aIBiVals):
-#     DP_stable = DP_interp(DPg, P, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
-#     if (DP_stable == -1 or DP_stable > DPMax):
-#         print([aIBi, P, DP_stable])
-#         PBVals[inda] = float('nan')
-#     else:
-#         PBVals[inda] = PB_interp(DP_stable, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
-# mask = ~np.isnan(PBVals)
-# PBValsC = PBVals[mask]
-# aIBiValsC = aIBiVals[mask]
+fig, ax = plt.subplots()
+DPg = 0
+PBVals = np.zeros(aIBiVals.size)
+for inda, aIBi in enumerate(aIBiVals):
+    DP_stable = DP_interp(DPg, P, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
+    if (DP_stable == -1 or DP_stable > DPMax):
+        print([aIBi, P, DP_stable])
+        PBVals[inda] = float('nan')
+    else:
+        PBVals[inda] = PB_interp(DP_stable, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
+mask = ~np.isnan(PBVals)
+PBValsC = PBVals[mask]
+aIBiValsC = aIBiVals[mask]
 
-# ax.plot(aIBiVals, rMass(P, PBVals, mI) / mI, 'b', label=r'$P=0.1 m_{I}\nu_{s}$')
-# ax.legend()
-# ax.set_xlabel(r'Scattering Length ($a_{IB}^{-1}$)')
-# ax.set_ylabel(r'Mass ($\frac{M_{pol}}{m_{I}}=\frac{P}{P-P_{B}}$)')
-# ax.set_title('Effective Mass vs Interactions')
-# plt.show()
+ax.plot(aIBiVals, rMass(P, PBVals, mI) / mI, 'b', label=r'$P=0.1 m_{I}\nu_{s}$')
+ax.legend()
+ax.set_xlabel(r'Scattering Length ($a_{IB}^{-1}$)')
+ax.set_ylabel(r'Mass ($\frac{M_{pol}}{m_{I}}=\frac{P}{P-P_{B}}$)')
+ax.set_title('Effective Mass vs Interactions')
+plt.show()
 
 
 # # NUMBER OF EXCITATIONS, Z-FACTOR, ENERGY VS INTERACTION STRENGTH
@@ -233,83 +233,83 @@ PBint_tck = np.load('PBint_spline.npy')
 # ax3.set_title('Energy vs Interactions')
 
 # plt.show()
-# # fig.savefig('impuritymom.pdf')
+# fig.savefig('impuritymom.pdf')
 
 
 # # ENERGY VS MOMENTUM
 
 
-aIBiVals = np.array([res + 0.3, res + 0.5, 1, 3, 5, 10])
-# aIBiVals = np.array([-5, res - 0.3, res + 0.3, 5])
+# aIBiVals = np.array([res + 0.3, res + 0.5, 1, 3, 5, 10])
+# # aIBiVals = np.array([-5, res - 0.3, res + 0.3, 5])
 
-fig, ax = plt.subplots()
-fign, axn = plt.subplots()
-colortyp = np.array(['r', 'g', 'b', 'y', 'c', 'm', 'y', 'k'])
+# fig, ax = plt.subplots()
+# fign, axn = plt.subplots()
+# colortyp = np.array(['r', 'g', 'b', 'y', 'c', 'm', 'y', 'k'])
 
-E1 = []
-E2 = []
+# E1 = []
+# E2 = []
 
-DPg = 0
-for inda, aIBi in enumerate(aIBiVals):
-    Pc = PCrit(aIBi, gBB, mI, mB, n0)
-    PVals = np.linspace(0.1 * mI * nuV, 0.95 * Pc, 100)
-    EVals = np.zeros(PVals.size)
-    for indp, P in enumerate(PVals):
-        DP_stable = DP_interp(DPg, P, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
-        if (DP_stable == -1 or DP_stable > DPMax):
-            print([aIBi, P, DP_stable])
-            EVals[indp] = float('nan')
-        else:
-            aSi = aSi_interp(DP_stable, aSi_tck)
-            PB = PB_interp(DP_stable, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
-            EVals[indp] = Eup(P, PB, aIBi, aSi, mI, mB, n0)
-    mask = ~np.isnan(EVals)
-    EValsC = EVals[mask]
-    PValsC = PVals[mask]
+# DPg = 0
+# for inda, aIBi in enumerate(aIBiVals):
+#     Pc = PCrit(aIBi, gBB, mI, mB, n0)
+#     PVals = np.linspace(0.1 * mI * nuV, 0.95 * Pc, 100)
+#     EVals = np.zeros(PVals.size)
+#     for indp, P in enumerate(PVals):
+#         DP_stable = DP_interp(DPg, P, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
+#         if (DP_stable == -1 or DP_stable > DPMax):
+#             print([aIBi, P, DP_stable])
+#             EVals[indp] = float('nan')
+#         else:
+#             aSi = aSi_interp(DP_stable, aSi_tck)
+#             PB = PB_interp(DP_stable, aIBi, gBB, mI, mB, n0, aSi_tck, PBint_tck)
+#             EVals[indp] = Eup(P, PB, aIBi, aSi, mI, mB, n0)
+#     mask = ~np.isnan(EVals)
+#     EValsC = EVals[mask]
+#     PValsC = PVals[mask]
 
-    a0 = aSi0(gBB, mI, mB, n0)
-    E0 = Eup(0, 0, aIBi, a0, mI, mB, n0)
-    E_tck = interpolate.splrep(PValsC, EValsC - E0, s=0)
-    E_int = interpolate.splev(PVals, E_tck, der=0)
-    E1_int = interpolate.splev(PVals, E_tck, der=1)
-    E2_int = interpolate.splev(PVals, E_tck, der=2)
-    E1.append((PVals / Pc, E1_int))
-    E2.append((PVals / Pc, E2_int))
+#     a0 = aSi0(gBB, mI, mB, n0)
+#     E0 = Eup(0, 0, aIBi, a0, mI, mB, n0)
+#     E_tck = interpolate.splrep(PValsC, EValsC - E0, s=0)
+#     E_int = interpolate.splev(PVals, E_tck, der=0)
+#     E1_int = interpolate.splev(PVals, E_tck, der=1)
+#     E2_int = interpolate.splev(PVals, E_tck, der=2)
+#     E1.append((PVals / Pc, E1_int))
+#     E2.append((PVals / Pc, E2_int))
 
-    ax.plot(PVals, EVals - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
-    axn.plot(PVals / Pc, EVals - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
+#     ax.plot(PVals, EVals - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
+#     axn.plot(PVals / Pc, EVals - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
 
-ax.legend()
-ax.set_xlabel('Momentum ($P$)')
-ax.set_ylabel('Energy ($E-E(P=0)$)')
-ax.set_title('Energy vs Momentum')
+# ax.legend()
+# ax.set_xlabel('Momentum ($P$)')
+# ax.set_ylabel('Energy ($E-E(P=0)$)')
+# ax.set_title('Energy vs Momentum')
 
-axn.legend()
-axn.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-axn.set_ylabel('Energy ($E-E(P=0)$)')
-axn.set_title('Energy vs Momentum')
-
-
-fig2, ax2 = plt.subplots()
-(Pnorm, E1Vals) = E1[0]
-(Pnorm, E2Vals) = E2[0]
-ax2.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
-ax2.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
-ax2.legend()
-ax2.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax2.set_ylabel('Energy Derivatives')
-ax2.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[0])
+# axn.legend()
+# axn.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# axn.set_ylabel('Energy ($E-E(P=0)$)')
+# axn.set_title('Energy vs Momentum')
 
 
-fig3, ax3 = plt.subplots()
-(Pnorm, E1Vals) = E1[-2]
-(Pnorm, E2Vals) = E2[-2]
-ax3.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
-ax3.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
-ax3.legend()
-ax3.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax3.set_ylabel('Energy Derivatives')
-ax3.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[-2])
+# fig2, ax2 = plt.subplots()
+# (Pnorm, E1Vals) = E1[0]
+# (Pnorm, E2Vals) = E2[0]
+# ax2.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
+# ax2.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
+# ax2.legend()
+# ax2.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax2.set_ylabel('Energy Derivatives')
+# ax2.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[0])
 
-plt.show()
-# fig.savefig('impuritymom.pdf')
+
+# fig3, ax3 = plt.subplots()
+# (Pnorm, E1Vals) = E1[-2]
+# (Pnorm, E2Vals) = E2[-2]
+# ax3.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
+# ax3.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
+# ax3.legend()
+# ax3.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax3.set_ylabel('Energy Derivatives')
+# ax3.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[-2])
+
+# plt.show()
+# # fig.savefig('impuritymom.pdf')
