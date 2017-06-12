@@ -127,13 +127,13 @@ P = 0.85
 aIBi = -20
 print(PCrit(aIBi, gBB, mI, mB, n0))
 
-kcutoff = 1
-dk = 0.1
+kcutoff = 20
+dk = 0.05
 
 Ntheta = 10
 dtheta = np.pi / (Ntheta - 1)
 
-tMax = 1
+tMax = 3
 dt = 1e-5
 
 cParams = [P, aIBi]

@@ -143,8 +143,8 @@ paramsIter = zip(cParams_List, it.repeat(gParams), it.repeat(sParams))
 
 start = timer()
 
-# for z in paramsIter:
-#     dynamics(*z)
+for z in paramsIter:
+    dynamics(*z)
 
 
 for i in it.starmap(dynamics, paramsIter):
