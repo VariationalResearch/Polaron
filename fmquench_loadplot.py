@@ -18,8 +18,8 @@ Color = NiceRed
 
 dirpath = os.path.dirname(os.path.realpath(__file__))
 
-P = 0.1
-aIBi = 5
+P = 0.85
+aIBi = -20
 data = np.load(dirpath + '/data/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P))
 
 [paramData, tfData, obData] = data
@@ -30,14 +30,14 @@ data = np.load(dirpath + '/data/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P))
 
 # plot
 
-# figN, axN = plt.subplots()
-# axN.plot(tVec, NB_Vec, color=Color, lw=2, linestyle='-')
-# axN.set_xlabel('Time, $t$', fontsize=fontsize)
-# axN.set_ylabel('$N_{ph}$', fontsize=fontsize)
+figN, axN = plt.subplots()
+axN.plot(tVec, NB_Vec, color=Color, lw=2, linestyle='-')
+axN.set_xlabel('Time, $t$', fontsize=fontsize)
+axN.set_ylabel('$N_{ph}$', fontsize=fontsize)
 # axN.set_xlim([0, 2])
 # axN.set_ylim([0, 3])
 # axN.set_aspect(2 / 3 * 0.4)
-# #axN.set_title('Number of Phonons')
+#axN.set_title('Number of Phonons')
 # figN.savefig(dirpath + '/figures/quench_PhononNumber_aIBi:%.2f_P:%.2f.pdf' % (aIBi, P), transparent=True)
 
 # figPB, axPB = plt.subplots()
@@ -64,20 +64,20 @@ data = np.load(dirpath + '/data/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P))
 # figPB.savefig(dirpath + '/figures/quench_PolaronMass_aIBi:%.2f_P:%.2f.pdf' % (aIBi, P))
 
 
-fig, axes = plt.subplots(nrows=1, ncols=2)
-axes[0].plot(tVec, np.abs(S_Vec), color=Color, lw=1, linestyle='-')
-axes[0].set_xlabel('Time, $t$', fontsize=fontsize)
-axes[0].set_ylabel(r'$\left|S(t)\right|$', fontsize=fontsize)
-#axes[0].set_title('Dynamical Overlap')
+# fig, axes = plt.subplots(nrows=1, ncols=2)
+# axes[0].plot(tVec, np.abs(S_Vec), color=Color, lw=1, linestyle='-')
+# axes[0].set_xlabel('Time, $t$', fontsize=fontsize)
+# axes[0].set_ylabel(r'$\left|S(t)\right|$', fontsize=fontsize)
+# #axes[0].set_title('Dynamical Overlap')
 
 
-axes[1].plot(freqVec, A_Vec, color=Color, lw=2, linestyle='-')
-axes[1].set_xlim([-200, 100])
-# axes[1].set_ylim([0, 0.1])
-axes[1].set_xlabel(r'Frequency, $\omega$', fontsize=fontsize)
-axes[1].set_ylabel(r'$A(\omega)$', fontsize=fontsize)
-#axes[1].set_title(r'Spectral Function')
-fig.tight_layout()
-fig.savefig(dirpath + '/figures/quench_DynOverlap&SpectFunction_aIBi:%.2f_P:%.2f.pdf' % (aIBi, P))
+# axes[1].plot(freqVec, A_Vec, color=Color, lw=2, linestyle='-')
+# axes[1].set_xlim([-200, 100])
+# # axes[1].set_ylim([0, 0.1])
+# axes[1].set_xlabel(r'Frequency, $\omega$', fontsize=fontsize)
+# axes[1].set_ylabel(r'$A(\omega)$', fontsize=fontsize)
+# #axes[1].set_title(r'Spectral Function')
+# fig.tight_layout()
+# fig.savefig(dirpath + '/figures/quench_DynOverlap&SpectFunction_aIBi:%.2f_P:%.2f.pdf' % (aIBi, P))
 
-# plt.show()
+plt.show()
