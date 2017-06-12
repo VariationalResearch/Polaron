@@ -3,7 +3,7 @@ from timeit import default_timer as timer
 import os
 from polrabi.staticfm import PCrit
 import multiprocessing as mp
-from itertools import repeat
+import itertools as it
 
 # # Initialization
 
@@ -86,9 +86,9 @@ def dynamics(cParams, gParams, sParams):
     obData = [PB_Vec, NB_Vec, S_Vec, A_Vec]
     data = [paramData, tfData, obData]
 
-    return data
-    # dirpath = os.path.dirname(os.path.realpath(__file__))
-    # np.save(dirpath + '/pdata/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P), data)
+    # return data
+    dirpath = os.path.dirname(os.path.realpath(__file__))
+    np.save(dirpath + '/pdata/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P), data)
 
 
 # set sParams
@@ -118,22 +118,23 @@ gParams = [kcutoff, dk, Ntheta, dtheta, tMax, dt]
 aIBi = -2
 Pc = PCrit(aIBi, gBB, mI, mB, n0)
 
-PVals = np.linspace(0, 0.95 * Pc, 10)
+PVals = np.linspace(0, 0.95 * Pc, 7)
 
 cParams_List = [[P, aIBi] for P in PVals]
 
 # create iterable over all tuples of function arguments for dynamics()
 
-paramsIter = zip(cParams_List, repeat(gParams), repeat(sParams))
+paramsIter = zip(cParams_List, it.repeat(gParams), it.repeat(sParams))
 
 # compute data (parallel)
 
 # start = timer()
 
-# pool = mp.Pool()
-# pool.starmap_async(dynamics, paramsIter)
-# pool.close()
-# pool.join()
+# with mp.Pool() as pool:
+#     # pool = mp.Pool()
+#     pool.starmap(dynamics, paramsIter)
+#     # pool.close()
+#     # pool.join()
 
 # end = timer()
 # print(end - start)
@@ -142,8 +143,12 @@ paramsIter = zip(cParams_List, repeat(gParams), repeat(sParams))
 
 start = timer()
 
-for z in paramsIter:
-    dynamics(*z)
+# for z in paramsIter:
+#     dynamics(*z)
+
+
+for i in it.starmap(dynamics, paramsIter):
+    i
 
 end = timer()
 print(end - start)
