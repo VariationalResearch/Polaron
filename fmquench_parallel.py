@@ -4,6 +4,7 @@ import os
 from polrabi.staticfm import PCrit
 import multiprocessing as mp
 import itertools as it
+from joblib import Parallel, delayed
 
 # # Initialization
 
@@ -15,7 +16,6 @@ def dynamics(cParams, gParams, sParams):
     [mI, mB, n0, gBB] = sParams
 
     kVec = np.arange(dk, kcutoff, dk)
-    # thetaVec = np.arange(0, np.pi + dtheta, dtheta)
     thetaVec = np.arange(dtheta, np.pi, dtheta)
     tVec = np.arange(0, tMax, dt)
 
@@ -87,68 +87,89 @@ def dynamics(cParams, gParams, sParams):
     data = [paramData, tfData, obData]
 
     # return data
-    dirpath = os.path.dirname(os.path.realpath(__file__))
-    np.save(dirpath + '/pdata/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P), data)
+    # dirpath = os.path.dirname(os.path.realpath(__file__))
+    # np.save(dirpath + '/pdata/fmquench_aIBi:%.2f_P:%.2f.npy' % (aIBi, P), data)
+    return data
 
 
-# set sParams
+if __name__ == "__main__":
 
-mI = 1
-mB = 1
-n0 = 1
-gBB = (4 * np.pi / mB) * 0.05
+    # set sParams
 
-sParams = [mI, mB, n0, gBB]
+    mI = 1
+    mB = 1
+    n0 = 1
+    gBB = (4 * np.pi / mB) * 0.05
 
-# set gParams
+    sParams = [mI, mB, n0, gBB]
 
-kcutoff = 20
-dk = 0.05
+    # set gParams
 
-Ntheta = 10
-dtheta = np.pi / (Ntheta - 1)
+    kcutoff = 20
+    dk = 0.05
 
-tMax = 3
-dt = 1e-5
+    Ntheta = 10
+    dtheta = np.pi / (Ntheta - 1)
 
-gParams = [kcutoff, dk, Ntheta, dtheta, tMax, dt]
+    tMax = 4
+    dt = 1e-5
 
-# create range of cParam values (P,aIBi)
+    gParams = [kcutoff, dk, Ntheta, dtheta, tMax, dt]
 
-aIBi = -2
-Pc = PCrit(aIBi, gBB, mI, mB, n0)
+    # create range of cParam values (P,aIBi)
 
-PVals = np.linspace(0, 0.95 * Pc, 7)
+    aIBi = -2
+    Pc = PCrit(aIBi, gBB, mI, mB, n0)
 
-cParams_List = [[P, aIBi] for P in PVals]
+    NPVals = 8
+    PVals = np.linspace(0, 0.95 * Pc, NPVals)
 
-# create iterable over all tuples of function arguments for dynamics()
+    cParams_List = [[P, aIBi] for P in PVals]
 
-paramsIter = zip(cParams_List, it.repeat(gParams), it.repeat(sParams))
+    # create iterable over all tuples of function arguments for dynamics()
 
-# compute data (parallel)
+    paramsIter = zip(cParams_List, it.repeat(gParams), it.repeat(sParams))
 
-# start = timer()
+    # compute data (parallel) - multiprocessing
 
-# with mp.Pool() as pool:
-#     # pool = mp.Pool()
-#     pool.starmap(dynamics, paramsIter)
-#     # pool.close()
-#     # pool.join()
+    # start = timer()
 
-# end = timer()
-# print(end - start)
+    # with mp.Pool() as pool:
+    #     # pool = mp.Pool()
+    #     pool.starmap(dynamics, paramsIter)
+    #     # pool.close()
+    #     # pool.join()
 
-# compute data (serial)
+    # end = timer()
+    # print(end - start)
 
-start = timer()
+    # compute data (parallel) - joblib
 
-for z in paramsIter:
-    dynamics(*z)
+    start = timer()
 
+    num_cores = min(mp.cpu_count(), NPVals)
+    print("Running on %d cores" % num_cores)
+    results1 = Parallel(n_jobs=num_cores)(delayed(dynamics)(*p) for p in paramsIter)
 
-for i in it.starmap(dynamics, paramsIter):
-    i
+    end = timer()
+    print(end - start)
 
-end = timer()
-print(end - start)
+    # compute data (serial) - for loop
+
+    # start = timer()
+
+    # for z in paramsIter:
+    #     dynamics(*z)
+
+    # end = timer()
+    # print(end - start)
+
+    # compute data (serial) - starmap
+
+    # start = timer()
+
+    # for i in it.starmap(dynamics, paramsIter):
+    #     i
+
+    # end = timer()
+    # print(end - start)
