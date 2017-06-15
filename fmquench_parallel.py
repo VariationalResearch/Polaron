@@ -105,14 +105,14 @@ if __name__ == "__main__":
 
     # set gParams
 
-    kcutoff = 1
-    dk = 0.1
+    kcutoff = 10
+    dk = 0.05
 
     Ntheta = 10
     dtheta = np.pi / (Ntheta - 1)
 
     tMax = 1
-    dt = 1e-2
+    dt = 1e-5
 
     gParams = [kcutoff, dk, Ntheta, dtheta, tMax, dt]
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     aIBi = -2
     Pc = PCrit(aIBi, gBB, mI, mB, n0)
 
-    NPVals = 4
+    NPVals = 20
     PVals = np.linspace(0, 0.95 * Pc, NPVals)
 
     cParams_List = [[P, aIBi] for P in PVals]
@@ -145,14 +145,14 @@ if __name__ == "__main__":
 
     # compute data (parallel) - joblib
 
-    start = timer()
+    # start = timer()
 
-    num_cores = min(mp.cpu_count(), NPVals)
-    print("Running on %d cores" % num_cores)
-    results1 = Parallel(n_jobs=num_cores)(delayed(dynamics)(*p) for p in paramsIter)
+    # num_cores = min(mp.cpu_count(), NPVals)
+    # print("Running on %d cores" % num_cores)
+    # results1 = Parallel(n_jobs=num_cores)(delayed(dynamics)(*p) for p in paramsIter)
 
-    end = timer()
-    print(end - start)
+    # end = timer()
+    # print(end - start)
 
     # compute data (serial) - for loop
 
@@ -166,10 +166,10 @@ if __name__ == "__main__":
 
     # compute data (serial) - starmap
 
-    # start = timer()
+    start = timer()
 
-    # for i in it.starmap(dynamics, paramsIter):
-    #     i
+    for i in it.starmap(dynamics, paramsIter):
+        i
 
-    # end = timer()
-    # print(end - start)
+    end = timer()
+    print(end - start)
