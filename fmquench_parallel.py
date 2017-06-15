@@ -105,14 +105,14 @@ if __name__ == "__main__":
 
     # set gParams
 
-    kcutoff = 20
-    dk = 0.05
+    kcutoff = 1
+    dk = 0.1
 
     Ntheta = 10
     dtheta = np.pi / (Ntheta - 1)
 
-    tMax = 4
-    dt = 1e-5
+    tMax = 1
+    dt = 1e-2
 
     gParams = [kcutoff, dk, Ntheta, dtheta, tMax, dt]
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     aIBi = -2
     Pc = PCrit(aIBi, gBB, mI, mB, n0)
 
-    NPVals = 8
+    NPVals = 4
     PVals = np.linspace(0, 0.95 * Pc, NPVals)
 
     cParams_List = [[P, aIBi] for P in PVals]
