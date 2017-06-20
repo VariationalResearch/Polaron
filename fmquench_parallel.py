@@ -105,10 +105,10 @@ if __name__ == "__main__":
 
     # set gParams
 
-    kcutoff = 10
+    kcutoff = 20
     dk = 0.05
 
-    Ntheta = 10
+    Ntheta = 50
     dtheta = np.pi / (Ntheta - 1)
 
     tMax = 1
@@ -132,16 +132,16 @@ if __name__ == "__main__":
 
     # compute data (parallel) - multiprocessing
 
-    # start = timer()
+    start = timer()
 
-    # with mp.Pool() as pool:
-    #     # pool = mp.Pool()
-    #     pool.starmap(dynamics, paramsIter)
-    #     # pool.close()
-    #     # pool.join()
+    with mp.Pool() as pool:
+        # pool = mp.Pool()
+        pool.starmap(dynamics, paramsIter)
+        # pool.close()
+        # pool.join()
 
-    # end = timer()
-    # print(end - start)
+    end = timer()
+    print(end - start)
 
     # compute data (parallel) - joblib
 
@@ -166,10 +166,10 @@ if __name__ == "__main__":
 
     # compute data (serial) - starmap
 
-    start = timer()
+    # start = timer()
 
-    for i in it.starmap(dynamics, paramsIter):
-        i
+    # for i in it.starmap(dynamics, paramsIter):
+    #     i
 
-    end = timer()
-    print(end - start)
+    # end = timer()
+    # print(end - start)
