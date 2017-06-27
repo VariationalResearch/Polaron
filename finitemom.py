@@ -243,11 +243,11 @@ PBint_tck = np.load('PBint_spline.npy')
 # aIBi, P, DP, aSi, PB, E, rM
 
 
-aIBiVals = -1 * np.array([res + 0.3, res + 0.5, 1, 3, 5, 10])
+aIBiVals = -1 * np.array([0.25, 1, 3, 5, 10])
 # aIBiVals = np.array([-5, res - 0.3, res + 0.3, 5])
 
-fig, ax = plt.subplots()
-fign, axn = plt.subplots()
+# fig, ax = plt.subplots()
+# fign, axn = plt.subplots()
 colortyp = np.array(['r', 'g', 'b', 'y', 'c', 'm', 'y', 'k'])
 
 E1 = []
@@ -283,8 +283,8 @@ for inda, aIBi in enumerate(aIBiVals):
     E1.append((PVals / Pc, E1_int))
     E2.append((PVals / Pc, E2_int))
 
-    ax.plot(PValsC, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
-    axn.plot(PValsC / Pc, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
+    # ax.plot(PValsC, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
+    # axn.plot(PValsC / Pc, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
 
     # create data to be saved (giant file to be saved later)
     # PdVec = np.concatenate((aIBi * np.ones(1), PValsC))
@@ -300,37 +300,59 @@ for inda, aIBi in enumerate(aIBiVals):
 
 # np.savetxt("Edat.csv", Edat)
 
-ax.legend()
-ax.set_xlabel('Momentum ($P$)')
-ax.set_ylabel('Energy ($E-E(P=0)$)')
-ax.set_title('Energy vs Momentum')
+# ax.legend()
+# ax.set_xlabel('Momentum ($P$)')
+# ax.set_ylabel('Energy ($E-E(P=0)$)')
+# ax.set_title('Energy vs Momentum')
 
-axn.legend()
-axn.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-axn.set_ylabel('Energy ($E-E(P=0)$)')
-axn.set_title('Energy vs Momentum')
-
-
-fig2, ax2 = plt.subplots()
-(Pnorm, E1Vals) = E1[0]
-(Pnorm, E2Vals) = E2[0]
-ax2.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
-ax2.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
-ax2.legend()
-ax2.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax2.set_ylabel('Energy Derivatives')
-ax2.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[0])
+# axn.legend()
+# axn.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# axn.set_ylabel('Energy ($E-E(P=0)$)')
+# axn.set_title('Energy vs Momentum')
 
 
-fig3, ax3 = plt.subplots()
-(Pnorm, E1Vals) = E1[-2]
-(Pnorm, E2Vals) = E2[-2]
-ax3.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
-ax3.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
-ax3.legend()
-ax3.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax3.set_ylabel('Energy Derivatives')
-ax3.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[-2])
+# fig2, ax2 = plt.subplots()
+# (Pnorm, E1Vals) = E1[0]
+# (Pnorm, E2Vals) = E2[0]
+# ax2.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
+# ax2.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
+# ax2.legend()
+# ax2.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax2.set_ylabel('Energy Derivatives')
+# ax2.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[0])
+
+
+# fig3, ax3 = plt.subplots()
+# (Pnorm, E1Vals) = E1[-2]
+# (Pnorm, E2Vals) = E2[-2]
+# ax3.plot(Pnorm, E1Vals, colortyp[0], label=r'$\frac{\partial E}{\partial P}$')
+# ax3.plot(Pnorm, E2Vals, colortyp[1], label=r'$\frac{\partial^{2} E}{\partial P^{2}}$')
+# ax3.legend()
+# ax3.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax3.set_ylabel('Energy Derivatives')
+# ax3.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[-2])
+
+
+fig4, ax4 = plt.subplots()
+fig5, ax5 = plt.subplots()
+
+for ind, aIBi in enumerate(aIBiVals):
+    (Pnorm, E1Vals) = E1[ind]
+    (Pnorm, E2Vals) = E2[ind]
+    ax4.plot(Pnorm, E1Vals, colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
+    ax5.plot(Pnorm, E2Vals / E2Vals[0], colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
+
+ax4.legend()
+ax4.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+ax4.set_ylabel(r'$\frac{\partial E}{\partial P}$')
+ax4.set_title(r'First Derivative of Energy')
+
+ax5.legend()
+ax5.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+ax5.set_ylabel(r'$M_{P}\frac{\partial^{2} E}{\partial P^{2}}$')
+ax5.set_title(r'Second Derivative of Energy')
+ax5.set_xlim([0, 1])
+ax5.set_ylim([0, 1])
 
 plt.show()
 # fig.savefig('impuritymom.pdf')

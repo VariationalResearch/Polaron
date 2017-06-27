@@ -3,9 +3,9 @@ from scipy.integrate import quad
 # from scipy.integrate import dblquad
 from scipy import interpolate
 
-err = 1e-5
-limit = 1e3
-alpha = 0.005
+err = 1e-10
+limit = 1e12
+alpha = 0.01
 upcutoff = 1e3
 
 
