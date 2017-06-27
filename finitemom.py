@@ -2,11 +2,13 @@ from polrabi.staticfm import *
 import matplotlib
 import matplotlib.pyplot as plt
 from scipy import interpolate
+import os
 # from timeit import default_timer as timer
 
 
 # # INITIALIZATION
 
+dirpath = os.path.dirname(os.path.realpath(__file__))
 
 matplotlib.rcParams.update({'font.size': 12, 'text.usetex': True})
 
@@ -284,15 +286,19 @@ for inda, aIBi in enumerate(aIBiVals):
     ax.plot(PValsC, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
     axn.plot(PValsC / Pc, EValsC - E0, colortyp[inda], label=r'$a_{IB}^{-1}=%.2f$' % aIBi)
 
-    # create data to be saved
-    PdVec = np.concatenate((aIBi * np.ones(1), PValsC))
-    EdVec = np.concatenate((aIBi * np.ones(1), EValsC))
-    if(inda == 0):
-        Edat = np.concatenate((PdVec[:, np.newaxis], EdVec[:, np.newaxis]), axis=1)
-    else:
-        Edat = np.concatenate((Edat, PdVec[:, np.newaxis], EdVec[:, np.newaxis]), axis=1)
+    # create data to be saved (giant file to be saved later)
+    # PdVec = np.concatenate((aIBi * np.ones(1), PValsC))
+    # EdVec = np.concatenate((aIBi * np.ones(1), EValsC))
+    # if(inda == 0):
+    #     Edat = np.concatenate((PdVec[:, np.newaxis], EdVec[:, np.newaxis]), axis=1)
+    # else:
+    #     Edat = np.concatenate((Edat, PdVec[:, np.newaxis], EdVec[:, np.newaxis]), axis=1)
 
-np.savetxt("Edat.csv", Edat)
+    # save data to file each time instead of one giant file
+    Edat = np.concatenate((PValsC[:, np.newaxis], EValsC[:, np.newaxis]), axis=1)
+    np.savetxt(dirpath + '/fmEdata/fmEP_aIBi_%.2f.dat' % (aIBi), Edat)
+
+# np.savetxt("Edat.csv", Edat)
 
 ax.legend()
 ax.set_xlabel('Momentum ($P$)')
