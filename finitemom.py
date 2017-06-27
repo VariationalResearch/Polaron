@@ -243,7 +243,8 @@ PBint_tck = np.load('PBint_spline.npy')
 # aIBi, P, DP, aSi, PB, E, rM
 
 
-aIBiVals = -1 * np.array([0.25, 1, 3, 5, 10])
+# aIBiVals = -1 * np.array([0.25, 1, 3, 5, 10])
+aIBiVals = -1 * np.array([2])
 # aIBiVals = np.array([-5, res - 0.3, res + 0.3, 5])
 
 # fig, ax = plt.subplots()
@@ -333,26 +334,26 @@ for inda, aIBi in enumerate(aIBiVals):
 # ax3.set_title(r'Energy Behavior for $a_{IB}^{-1}=%.2f$' % aIBiVals[-2])
 
 
-fig4, ax4 = plt.subplots()
-fig5, ax5 = plt.subplots()
+# fig4, ax4 = plt.subplots()
+# fig5, ax5 = plt.subplots()
 
-for ind, aIBi in enumerate(aIBiVals):
-    (Pnorm, E1Vals) = E1[ind]
-    (Pnorm, E2Vals) = E2[ind]
-    ax4.plot(Pnorm, E1Vals, colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
-    ax5.plot(Pnorm, E2Vals / E2Vals[0], colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
+# for ind, aIBi in enumerate(aIBiVals):
+#     (Pnorm, E1Vals) = E1[ind]
+#     (Pnorm, E2Vals) = E2[ind]
+#     ax4.plot(Pnorm, E1Vals, colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
+#     ax5.plot(Pnorm, E2Vals / E2Vals[0], colortyp[ind], label='$a_{IB}^{-1}=%.2f$' % aIBi)
 
-ax4.legend()
-ax4.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax4.set_ylabel(r'$\frac{\partial E}{\partial P}$')
-ax4.set_title(r'First Derivative of Energy')
+# ax4.legend()
+# ax4.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax4.set_ylabel(r'$\frac{\partial E}{\partial P}$')
+# ax4.set_title(r'First Derivative of Energy')
 
-ax5.legend()
-ax5.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
-ax5.set_ylabel(r'$M_{P}\frac{\partial^{2} E}{\partial P^{2}}$')
-ax5.set_title(r'Second Derivative of Energy')
-ax5.set_xlim([0, 1])
-ax5.set_ylim([0, 1])
+# ax5.legend()
+# ax5.set_xlabel(r'Momentum ($\frac{P}{P_{crit}(a_{IB})}$)')
+# ax5.set_ylabel(r'$M_{P}\frac{\partial^{2} E}{\partial P^{2}}$')
+# ax5.set_title(r'Second Derivative of Energy')
+# ax5.set_xlim([0, 1])
+# ax5.set_ylim([0, 1])
 
-plt.show()
+# plt.show()
 # fig.savefig('impuritymom.pdf')
